@@ -15,6 +15,8 @@ base_dir = Path(__file__).parent
 # 본인이 테스트하고자 하는 모델 코드 입력
 MODEL = "kanana-1.5-8b-full:latest"
 
+# 콜드 스타트용 질문
+COLD_QUESTION = "일어나라"
 # 예시 질문 1개
 QUESTION = "프랑스의 수도는 어디인가요? 도시 이름만 한국어로 쓰고, 설명이나 문장부호는 붙이지 마세요."
 
@@ -62,7 +64,7 @@ print("언로드 후:", client.ps()["models"])
 # cold_prompt_eval_duration - 최초 질문에 대한 프롬프트 처리 속도
 # cold_eval_duration: - 최초 질문에 대한 전체 처리 속도
 # ==================================================
-cold = client.chat(model=MODEL, messages=[{"role": "user", "content": "일어나라"}])
+cold = client.chat(model=MODEL, messages=[{"role": "user", "content": COLD_QUESTION}])
 cold_load_duration = cold["load_duration"] / 1e9
 cold_prompt_eval_duration = cold["prompt_eval_duration"] / 1e9
 cold_eval_duration = cold["eval_duration"] / 1e9
@@ -145,12 +147,16 @@ result = {
         "cold_load_duration": cold_load_duration,
         "cold_prompt_eval_duration": cold_prompt_eval_duration,
         "cold_eval_duration": cold_eval_duration,
+        "question": COLD_QUESTION,
+        "answer": cold["message"]["content"]
     },
     "warm": {
         "total_time": total_time,
         "gen_speed": gen_speed,
         "prompt_speed": prompt_speed,
         "VRAM_usage": vram_usage,
+        "question": QUESTION,
+        "answer": warm["message"]["content"]
     }
 }
 
