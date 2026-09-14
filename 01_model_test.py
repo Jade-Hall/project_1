@@ -8,7 +8,7 @@
 import json, re
 from pathlib import Path
 
-import ollama
+from ollama import Client
 
 # report를 저장하고자 하는 파일 경로
 base_dir = Path(__file__).parent
@@ -33,12 +33,14 @@ METRIC_DESCRIPTIONS = {
     "vram_usage": "Warm 요청 직후 ollama.ps()가 보고한 VRAM 점유량 (GB). 모델 가중치+KV캐시 추정치",
 }
 
+# ollama 클라이언트 생성
+client = Client(host="http://127.0.0.1:11434", timeout=180)
 
 #==================================================
 # 1. 현재 떠있는 모델 확인
 # [중요] "모델명:태크" 까지 붙여서 사용할 것
 #==================================================
-running = ollama.ps()["models"]
+running = client.ps()["models"]
 print("측정 전 로딩된 모델:", [m["model"] for m in running])
 
 
@@ -48,10 +50,10 @@ print("측정 전 로딩된 모델:", [m["model"] for m in running])
 #==================================================
 for m in running:
     print(f"{m['model']}를 언로드합니다.")
-    ollama.chat(model=m["model"], messages=[], keep_alive=0)
+    client.chat(model=m["model"], messages=[], keep_alive=0)
 
 # 언로드 확인
-print("언로드 후:", ollama.ps()["models"])
+print("언로드 후:", client.ps()["models"])
 
 
 #==================================================
@@ -60,7 +62,7 @@ print("언로드 후:", ollama.ps()["models"])
 # cold_prompt_eval_duration - 최초 질문에 대한 프롬프트 처리 속도
 # cold_eval_duration: - 최초 질문에 대한 전체 처리 속도
 # ==================================================
-cold = ollama.chat(model=MODEL, messages=[{"role": "user", "content": "일어나라"}])
+cold = client.chat(model=MODEL, messages=[{"role": "user", "content": "일어나라"}])
 cold_load_duration = cold["load_duration"] / 1e9
 cold_prompt_eval_duration = cold["prompt_eval_duration"] / 1e9
 cold_eval_duration = cold["eval_duration"] / 1e9
@@ -78,7 +80,7 @@ print("[Cold] eval_duration(초):", cold_eval_duration)
 #==================================================
 digest = None
 quantization_level = None
-for m in ollama.list()["models"]:
+for m in client.list()["models"]:
     if m["model"] == MODEL:
         digest = m["digest"]
         quantization_level = m["details"]["quantization_level"]
@@ -87,7 +89,7 @@ for m in ollama.list()["models"]:
 
 # 모델의 최대 컨텍스트 길이 확인
 max_context_length = None
-info = ollama.show(MODEL)
+info = client.show(MODEL)
 for key, value in info["modelinfo"].items():
     if "context_length" in key:
         max_context_length = value
@@ -95,7 +97,7 @@ for key, value in info["modelinfo"].items():
 
 # 실제 로딩된 모델의 context_length
 use_context_length = None
-for m in ollama.ps()["models"]:
+for m in client.ps()["models"]:
     if m["model"] == MODEL:
         use_context_length = m["context_length"]
         print("실행 중 context_length:", use_context_length)
@@ -108,7 +110,7 @@ for m in ollama.ps()["models"]:
 # prompt_speed - 프롬프트 처리 속도
 # VRAM_usage - VRAM 사용량
 #==================================================
-warm = ollama.chat(model=MODEL, messages=[{"role": "user", "content": QUESTION}])
+warm = client.chat(model=MODEL, messages=[{"role": "user", "content": QUESTION}])
 
 # 전체 응답 시간
 total_time = warm["total_duration"] / 1e9
@@ -122,7 +124,7 @@ print("프롬프트 처리 속도:", prompt_speed, "tok/s")
 
 # 모델의 VRAM 사용량 계산
 vram_usage = None
-for m in ollama.ps()["models"]:
+for m in client.ps()["models"]:
     if m["model"] == MODEL:
         vram_usage = m["size_vram"] / (1024**3)
         print(f"[warm 이후] VRAM 사용량: {vram_usage:.2f} GB")
