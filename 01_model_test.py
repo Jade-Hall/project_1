@@ -13,7 +13,7 @@ from ollama import Client
 # report를 저장하고자 하는 파일 경로
 base_dir = Path(__file__).parent
 # 본인이 테스트하고자 하는 모델 코드 입력
-MODEL = "kanana-1.5-8b-full:latest"
+MODEL = "exaone3.5:latest"
 
 # 콜드 스타트용 질문
 COLD_QUESTION = "일어나라"
