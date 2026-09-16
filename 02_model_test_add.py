@@ -21,7 +21,7 @@ COLD_QUESTION = "일어나라"
 QUESTIONS_PATH = base_dir / "questions.json"
 
 # 이번 테스트에서 사용할 temperature (모델 비교 시 값을 고정해야 공정한 비교가 됨)
-TEMPERATURE = 0.7
+TEMPERATURE = 0.0
 
 # ollama 클라이언트 생성
 client = Client(host="http://127.0.0.1:11434", timeout=180)
