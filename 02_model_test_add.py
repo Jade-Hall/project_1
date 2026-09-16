@@ -12,7 +12,7 @@ from ollama import Client
 base_dir = Path(__file__).parent
 
 # 본인이 테스트하고자 하는 모델 코드 입력
-MODEL = "exaone3.5:latest"
+MODEL = "exaone3.5:7.8b-instruct-fp16"
 
 # 콜드 스타트용 질문
 COLD_QUESTION = "일어나라"
