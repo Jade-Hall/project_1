@@ -43,7 +43,7 @@ UNLOAD_BEFORE_START = True  # 시작 전에 떠 있는 모델을 전부 언로�
 
 # 문항 세트 경로
 base_dir = Path(__file__).parent
-QUESTIONS_PATH = base_dir / "questions.json"
+QUESTIONS_PATH = base_dir / "questions" / "questions2.json"
 
 # 결과 저장 폴더 (기존: reports/test = local, reports/cloud = cloud API)
 RESULT_DIR = base_dir / "reports" / "multiagent"
