@@ -1,12 +1,8 @@
 #==================================================
 # 작성 목적: 로컬 LLM 멀티에이전트(Analyzer -> Solver -> Critic) 순차 실행 테스트.
-# 기존 02_model_test_add.py(Local 단일 모델) / 03_cloud_api_test.py(Cloud API)와
-# 같은 문항·같은 지표로 비교하기 위해 만들었다.
 #
 # 최종 비교 목표:
 #   Local Single Model  vs  Local Multi-Agent  vs  Cloud API
-#
-# [주의] 이 스크립트는 기존 파일을 수정하지 않는다. questions.json도 읽기만 한다.
 #==================================================
 
 import json
@@ -190,6 +186,8 @@ for model_name in UNIQUE_MODELS:
         print(f"[Cold] {model_name}: load={entry['cold_load_duration']:.4f}s  "
               f"prompt_eval={entry['cold_prompt_eval_duration']:.4f}s  "
               f"eval={entry['cold_eval_duration']:.4f}s")
+        
+    #예외 처리: 모델이 없거나, 로딩 실패 시 None으로 남기고 계속 진행
     except Exception as exc:
         entry = {"model": model_name, "error": f"{type(exc).__name__}: {exc}"}
         print(f"[Cold] {model_name}: 실패 - {entry['error']}")
@@ -210,22 +208,30 @@ def collect_model_info(model_name):
         "temperature": TEMPERATURE,
     }
     try:
+        # 모델 리스트에서 digest, quantization_level 수집
+        # client.list()는 설치되어 있는 모델 목록을 본다.
         for m in client.list()["models"]:
             if m["model"] == model_name:
                 info["digest"] = m["digest"]
                 info["quantization_level"] = m["details"]["quantization_level"]
                 break
 
+        # 모델 상세 정보에서 max_context_length 수집
+        # client.show()는 특정 모델의 상세 메타정보를 본다.
         shown = client.show(model_name)
         for key, value in shown["modelinfo"].items():
             if "context_length" in key:
                 info["max_context_length"] = value
                 break
 
+        # 실제 로딩된 모델의 use_context_length 수집
+        # client.ps()는 실제로 메모리에 올라가 있는 모델 상태를 본다.
         for m in client.ps()["models"]:
             if m["model"] == model_name:
                 info["use_context_length"] = m["context_length"]
                 break
+
+    # 예외 처리: 모델이 없거나, ps()에서 찾지 못하면 None으로 남기고 계속 진행
     except Exception as exc:
         info["error"] = f"{type(exc).__name__}: {exc}"
     return info
@@ -390,6 +396,7 @@ def run_pipeline(q):
 # 6. 집계 / 저장
 #==================================================
 def safe_avg(values):
+    # 평균을 계산하되, 값이 비어 있거나 None이 섞여 있어도 에러 없이 처리하려고 만든 함수
     vals = [v for v in values if isinstance(v, (int, float))]
     if not vals:
         return None
@@ -397,8 +404,7 @@ def safe_avg(values):
 
 
 def summarize(results):
-    """기존 summary(num_questions / avg_total_time / avg_gen_speed /
-    avg_prompt_speed)와 같은 형태 + 에이전트별 평균을 추가한다."""
+    # safe_avg()를 이용해 여러 성능 지표를 한 번에 정리하는 상위 함수
     ok = [r for r in results if not r.get("error_stage")]
 
     gen_speeds, prompt_speeds, vrams = [], [], []
@@ -424,7 +430,7 @@ def summarize(results):
         "avg_VRAM_usage": safe_avg(vrams),
     }
 
-
+# 결과 파일을 저장할 폴더를 준비하고, 파일 이름과 최종 저장 경로까지 만드는 부분
 RESULT_DIR.mkdir(parents=True, exist_ok=True)
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 filename = f"result_multiagent_{len(questions)}q_{timestamp}.json"
