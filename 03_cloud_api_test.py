@@ -81,7 +81,7 @@ MODEL_CONTEXT_INFO = {
 }
 
 # 테스트 문항 세트 (STEP 7 자료, 로컬 스크립트와 동일 파일 공유)
-QUESTIONS_PATH = base_dir / "questions.json"
+QUESTIONS_PATH = base_dir / "questions" / "questions.json"
 
 # 이번 테스트에서만 실행할 문항 필터 (요청사항: cloud_test == true 인 것만)
 RUN_ONLY_CLOUD_TEST = True
