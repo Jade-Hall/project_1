@@ -18,7 +18,7 @@
 #     (STEP 7 요구사항: "추정 비용과 OpenAI API 사용량의 실제 사용 내역을 구분")
 #
 # 사용법 (PowerShell 기준):
-#   1) questions.json을 이 스크립트와 같은 폴더에 둔다.
+#   1) questions.json을 questions 폴더에 둔다.
 #   2) API 키를 환경변수로 설정한다 (코드/로그/스크린샷에 키가 남지 않도록,
 #      코드 안에 직접 쓰지 않는다). 변수 이름은 반드시 OPENAI_API_KEY여야 하며,
 #      OPEN_API_KEY처럼 철자가 하나라도 다르면 "설정 안 된 것"으로 인식한다.

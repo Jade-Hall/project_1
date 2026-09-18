@@ -1,6 +1,6 @@
 [project]
-name = "project1-python-start"
+name = "나랏말AI미"
 version = "0.1.0"
-description = "Python으로 Ollama와 OpenAI 모델에 첫 질문 보내기"
+description = "한국어 LLM 연구에 사용할 Base 모델을 선정하는 프로젝트"
 requires-python = ">=3.12,<3.13"
 dependencies = ["ollama==0.6.2", "openai==3.8.0"]

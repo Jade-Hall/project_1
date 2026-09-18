@@ -1,0 +1,262 @@
+{
+  "model_info": {
+    "provider": "openai",
+    "model_name": "motif/motif-3",
+    "digest": "N/A (Cloud API)",
+    "quantization_level": "N/A (Cloud API)",
+    "max_context_length": null,
+    "max_output_tokens": null,
+    "temperature_requested": 0.0,
+    "price_input_per_1m_usd": 0.2,
+    "price_output_per_1m_usd": 0.08
+  },
+  "warm_results": [
+    {
+      "id": "Q01",
+      "title": "여러 사실 확인과 구조화",
+      "difficulty": "쉬움",
+      "category": "사실 정확성 및 구조화 출력",
+      "question": "태양계에서 가장 큰 행성과 태양에 가장 가까운 행성은 각각 무엇인가요? 행성 이름은 한국어로 쓰고, \"가장큰행성\"과 \"태양에가장가까운행성\" 두 키만 가진 JSON 객체로 답하세요. 코드 블록이나 설명은 붙이지 마세요.",
+      "answer": "{\"가장큰행성\":\"목성\",\"태양에가장가까운행성\":\"수성\"}",
+      "total_time": 4.170917600000394,
+      "ttft": 3.9555037999998603,
+      "gen_duration": 0.21541380000053323,
+      "gen_speed": 872.7388867358295,
+      "prompt_speed": 13.904676314557438,
+      "prompt_tokens": 55,
+      "completion_tokens": 188,
+      "cost_usd": 2.604e-05,
+      "temperature_requested": 0.0,
+      "temperature_used": 0.0,
+      "expected_answer": "{\"가장큰행성\":\"목성\",\"태양에가장가까운행성\":\"수성\"}",
+      "evaluation_abilities": [
+        "복수 사실의 정확성",
+        "핵심 정보 충족",
+        "구조화된 출력",
+        "지시 준수"
+      ],
+      "content_checkpoints": [
+        "가장 큰 행성을 목성으로 답함",
+        "태양에 가장 가까운 행성을 수성으로 답함"
+      ],
+      "format_criteria": [
+        "유효한 JSON 객체여야 함",
+        "\"가장큰행성\"과 \"태양에가장가까운행성\" 두 키만 사용해야 함",
+        "행성 이름은 한국어로 작성해야 함",
+        "코드 블록이나 앞뒤 설명이 없어야 함",
+        "키 순서와 공백은 무관함"
+      ],
+      "obvious_wrong_criteria": [
+        "행성을 잘못 답함",
+        "목성과 수성의 역할을 뒤바꿈"
+      ],
+      "scoring": {
+        "content_max": 2,
+        "format_max": 1,
+        "total_max": 3
+      },
+      "content_score": null,
+      "format_score": null,
+      "total_score": null
+    },
+    {
+      "id": "Q02",
+      "title": "제공된 정보만 사용하고 부족한 정보 인정하기",
+      "difficulty": "보통",
+      "category": "근거 기반 응답 및 추측 억제",
+      "question": "다음 안내문에 있는 정보만 사용하세요.\n[안내문] 해솔도서관은 화요일부터 일요일까지 오전 9시~오후 6시에 운영하며, 월요일에는 휴관합니다.\n아래 세 항목에 답하되, 안내문으로 알 수 없는 항목은 \"확인할 수 없음\"이라고 쓰세요. 다른 설명 없이 다음 형식으로 세 줄을 출력하세요.\n월요일 운영:\n일요일 종료 시각:\n주차 요금:",
+      "answer": "월요일 운영: 휴관\n일요일 종료 시각: 오후 6시\n주차 요금: 확인할 수 없음",
+      "total_time": 4.462147499998537,
+      "ttft": 4.198515699998097,
+      "gen_duration": 0.2636318000004394,
+      "gen_speed": 1024.1556595203992,
+      "prompt_speed": 20.959788241363462,
+      "prompt_tokens": 88,
+      "completion_tokens": 270,
+      "cost_usd": 3.9200000000000004e-05,
+      "temperature_requested": 0.0,
+      "temperature_used": 0.0,
+      "expected_answer": "월요일 운영: 휴관\n일요일 종료 시각: 오후 6시\n주차 요금: 확인할 수 없음",
+      "evaluation_abilities": [
+        "근거에 따른 응답",
+        "정보 추출",
+        "정보 부족 인식",
+        "추측 억제"
+      ],
+      "content_checkpoints": [
+        "월요일이 휴관임을 정확히 답함",
+        "일요일 종료 시각을 오후 6시 또는 18시로 답함",
+        "주차 요금은 안내문으로 알 수 없음을 답함"
+      ],
+      "format_criteria": [
+        "지정된 세 항목명을 그대로 사용함",
+        "세 줄로 출력함",
+        "추가 설명이 없음"
+      ],
+      "obvious_wrong_criteria": [
+        "월요일에 운영한다고 답함",
+        "일요일 종료 시각을 잘못 답함",
+        "주차 요금을 무료, 유료 또는 특정 금액으로 임의로 단정함"
+      ],
+      "scoring": {
+        "content_max": 2,
+        "format_max": 1,
+        "total_max": 3
+      },
+      "content_score": null,
+      "format_score": null,
+      "total_score": null
+    },
+    {
+      "id": "Q04",
+      "title": "필요한 정보만 남기는 문맥 요약",
+      "difficulty": "보통",
+      "category": "한국어 요약 및 핵심 정보 선별",
+      "question": "다음 안내를 행사 내용·장소·일시·취소 조건만 담아 존댓말 한 문장으로 요약하세요. 준비물 정보와 별도 설명은 제외하세요.\n“토요일 오전 10시에 중앙공원에서 쓰레기 줍기 행사를 진행합니다. 장갑은 현장에서 제공합니다. 마실 물은 각자 준비하세요. 비가 오면 행사는 취소됩니다.”",
+      "answer": "토요일 오전 10시에 중앙공원에서 쓰레기 줍기 행사가 진행되며, 비가 오면 취소됩니다.",
+      "total_time": 5.389593800002331,
+      "ttft": 5.156226000002789,
+      "gen_duration": 0.2333677999995416,
+      "gen_speed": 1392.6514283488912,
+      "prompt_speed": 12.99399987509542,
+      "prompt_tokens": 67,
+      "completion_tokens": 325,
+      "cost_usd": 3.9399999999999995e-05,
+      "temperature_requested": 0.0,
+      "temperature_used": 0.0,
+      "expected_answer": "토요일 오전 10시 중앙공원에서 쓰레기 줍기 행사가 열리며, 비가 오면 취소됩니다.",
+      "evaluation_abilities": [
+        "핵심 정보 선별",
+        "요약의 충실성",
+        "자연스러운 한국어 표현",
+        "불필요한 정보 제외"
+      ],
+      "content_checkpoints": [
+        "쓰레기 줍기 행사를 포함함",
+        "장소인 중앙공원을 포함함",
+        "토요일 오전 10시를 포함함",
+        "비가 오면 취소된다는 조건을 포함함"
+      ],
+      "format_criteria": [
+        "완결된 존댓말 한 문장으로 작성함",
+        "장갑이나 마실 물 등 준비물 정보는 제외함",
+        "별도의 설명을 추가하지 않음"
+      ],
+      "obvious_wrong_criteria": [
+        "시간이나 장소를 바꿈",
+        "우천 시 연기 또는 실내 진행이라고 답함",
+        "안내문에 없는 날짜, 참가비 등의 정보를 만들어 넣음"
+      ],
+      "scoring": {
+        "content_max": 2,
+        "format_max": 1,
+        "total_max": 3
+      },
+      "content_score": null,
+      "format_score": null,
+      "total_score": null
+    },
+    {
+      "id": "Q06",
+      "title": "조건 추론과 역방향 추론 방지",
+      "difficulty": "추론 필요",
+      "category": "논리 추론",
+      "question": "다음 정보만 사용하세요. 모든 정회원은 출입카드가 있습니다. 지수는 정회원입니다. 민수는 출입카드가 있습니다.\nA. 지수는 출입카드가 있다.\nB. 민수는 정회원이다.\nC. 지수는 출입카드가 없다.\n각 문장이 반드시 참이면 \"참\", 반드시 거짓이면 \"거짓\", 참과 거짓이 모두 가능하면 \"판단불가\"로 분류하세요. 설명 없이 \"A=분류\", \"B=분류\", \"C=분류\" 형식으로 세 줄을 쓰세요.",
+      "answer": "A=참\nB=판단불가\nC=거짓",
+      "total_time": 4.069686099999672,
+      "ttft": 3.9190706000008504,
+      "gen_duration": 0.15061549999882118,
+      "gen_speed": 1679.7739940575848,
+      "prompt_speed": 27.30239154149884,
+      "prompt_tokens": 107,
+      "completion_tokens": 253,
+      "cost_usd": 4.164e-05,
+      "temperature_requested": 0.0,
+      "temperature_used": 0.0,
+      "expected_answer": "A=참\nB=판단불가\nC=거짓",
+      "evaluation_abilities": [
+        "조건 추론",
+        "논리적 일관성",
+        "역방향 추론 방지",
+        "불확실한 결론의 보류"
+      ],
+      "content_checkpoints": [
+        "정회원인 지수에게 출입카드가 있음을 올바르게 추론함",
+        "출입카드가 있다는 사실만으로 민수가 정회원이라고 역추론하지 않음",
+        "지수에게 출입카드가 없다는 명제를 거짓으로 분류함"
+      ],
+      "format_criteria": [
+        "지정된 A, B, C 순서로 세 줄을 작성함",
+        "분류에는 \"참\", \"거짓\", \"판단불가\"만 사용함",
+        "추가 설명을 붙이지 않음"
+      ],
+      "obvious_wrong_criteria": [
+        "민수가 반드시 정회원이라고 결론 냄",
+        "민수가 반드시 비회원이라고 결론 냄",
+        "지수에게 출입카드가 없을 수도 있다고 판단함"
+      ],
+      "scoring": {
+        "content_max": 2,
+        "format_max": 1,
+        "total_max": 3
+      },
+      "content_score": null,
+      "format_score": null,
+      "total_score": null
+    },
+    {
+      "id": "Q09",
+      "title": "완곡한 거절 신호 해석",
+      "difficulty": "보통",
+      "category": "한국어 화용 및 대화 의도 이해",
+      "question": "\"그건 좀 어려울 것 같은데... 다른 방법은 없을까요?\"",
+      "answer": "죄송합니다만, 이전 대화 내용이 없어서 어떤 부분이 어려운지 잘 모르겠어요. 어떤 작업이나 문제를 해결하려고 하는지 알려주시면, 다른 방법을 찾아드릴 수 있습니다. 예를 들어, 특정 기능 구현, 정보 검색, 번역 등 어떤 도움이 필요하신가요? 구체적인 내용을 말씀해 주시면 가능한 대안을 제안해 드리겠습니다.",
+      "total_time": 7.04943590000039,
+      "ttft": 6.376728399998683,
+      "gen_duration": 0.6727075000017066,
+      "gen_speed": 668.938580287656,
+      "prompt_speed": 2.979584327286689,
+      "prompt_tokens": 19,
+      "completion_tokens": 450,
+      "cost_usd": 3.98e-05,
+      "temperature_requested": 0.0,
+      "temperature_used": 0.0,
+      "expected_answer": "네, 말씀하신 방법 대신 가능한 다른 방법을 함께 찾아보겠습니다.",
+      "evaluation_abilities": [
+        "한국어 완곡 표현 이해",
+        "상대 의도 파악",
+        "논리적 일관성",
+        "자연스러운 대화 대응"
+      ],
+      "content_checkpoints": [
+        "상대가 기존 방법에 난색을 보이거나 완곡하게 거절하고 있음을 이해함",
+        "원래 방법을 재차 강요하지 않음",
+        "다른 대안을 탐색하려는 태도를 보임"
+      ],
+      "format_criteria": [
+        "자연스러운 존댓말을 사용함",
+        "상대에게 무례하거나 강압적인 표현을 사용하지 않음"
+      ],
+      "obvious_wrong_criteria": [
+        "완곡한 거절 의도를 무시하고 기존 방법을 그대로 강요함",
+        "상대에게 무례하거나 공격적으로 응답함"
+      ],
+      "scoring": {
+        "content_max": 2,
+        "format_max": 1,
+        "total_max": 3
+      },
+      "content_score": null,
+      "format_score": null,
+      "total_score": null
+    }
+  ],
+  "summary": {
+    "num_questions": 5,
+    "avg_total_time": 5.028356180000264,
+    "avg_gen_speed": 1127.6517097900721,
+    "avg_prompt_speed": 15.62808805996037,
+    "total_cost_usd": 0.00018608000000000003,
+    "avg_cost_usd": 3.7216000000000004e-05
+  }
+}
