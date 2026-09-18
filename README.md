@@ -7,6 +7,8 @@
 | 이정수 | https://github.com/Damsebi  |
 | 송찬영 | https://github.com/scy0416  |
 
+[[_TOC_]]
+
 ## Quick Start
 
 1. **터미널 → 새 터미널**에서 PowerShell을 엽니다. Ollama 앱도 실행합니다.
@@ -104,14 +106,15 @@ uv run python .\02_model_test_add.py
 실행 결과 파일: `/reports/cloud/result_{모델명:태그}_cloud.json`
 
 
-#### 질문지 답변 자료 위치
-1. 로컬모델의 질문지 답변: results/local
-2. 클라우드모델의 질문지 답변: results/cloud
-3. (심화) 멀티모달, 클라우드 답변: results/avd
+## 각종 문서 위치
+### 질문지 답변 자료 위치
+1. 로컬모델의 질문지 답변: [results/local](results/local)
+2. 클라우드모델의 질문지 답변: [results/cloud](results/cloud)
+3. (심화) 멀티모달, 클라우드 답변: [results/adv](results/adv)
 
-#### 문서 자료 위치
-1. 평가지표: doc/metric
-2. 로컬 1차 테스트: doc/local_test_1 
-3. 로컬 2차 테스트: doc/local_test_2
-4. 로컬-클라우드 테스트: docs/local_cloud_test
-5. (심화) 멀티에이전트-클라우드 테스트: docs/adv_test
+### 문서 자료 위치
+1. 평가지표: [docs/metrics](docs/metrics)
+2. 로컬 1차 테스트: [docs/local_test_1](docs/local_test_1)
+3. 로컬 2차 테스트: [docs/local_test_2](docs/local_test_2)
+4. 로컬-클라우드 테스트: [docs/local_cloud_test](docs/local_cloud_test)
+5. (심화) 멀티에이전트-클라우드 테스트: [docs/adv_test](docs/adv_test)
