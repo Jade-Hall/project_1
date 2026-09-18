@@ -18,7 +18,7 @@ MODEL = "exaone3.5:7.8b-instruct-fp16"
 COLD_QUESTION = "일어나라"
 
 # 테스트 문항 세트 (2번 자료)
-QUESTIONS_PATH = base_dir / "questions.json"
+QUESTIONS_PATH = base_dir / "questions" / "questions.json"
 
 # 이번 테스트에서 사용할 temperature (모델 비교 시 값을 고정해야 공정한 비교가 됨)
 TEMPERATURE = 0.0
