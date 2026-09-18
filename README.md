@@ -1,5 +1,12 @@
 # Project1 - 집현전
 
+## 팀원
+| 이름   |Github|
+|--------|---|
+| 천희재 | https://github.com/rjqnrll7-cmyk  |
+| 이정수 | https://github.com/Damsebi  |
+| 송찬영 | https://github.com/scy0416  |
+
 ## Quick Start
 
 1. **터미널 → 새 터미널**에서 PowerShell을 엽니다. Ollama 앱도 실행합니다.
@@ -13,6 +20,31 @@ uv run python --version
 Python `3.12.x`가 나오면 준비됐습니다. 최초 실행에는 Python과 패키지 다운로드가 필요할 수 있습니다.
 
 ## 파일 실행
+
+### `01_model_test.py`
+
+#### 실행 전 유의 사항
+`ollama ls`를 통해서 나오는 모델의 태그를 포함한 전체 이름을 `MODEL`에 입력해야 합니다.
+
+**예시**
+
+```commandline
+C:\Users\xxxxx\Documents\kanana\kanana-1.5-8b-base>ollama ls
+NAME                             ID              SIZE      MODIFIED
+kanana-1.5-8b-full:latest        4997c7cee514    16 GB     2 hours ago
+kanana-1.5-8b-q8:latest          0112116bbd53    8.5 GB    3 hours ago
+kanana-1.5-8b-q4:latest          ce1614ddb0be    5.0 GB    5 hours ago
+gemma3:4b                        a2af6cc3eb7f    3.3 GB    5 days ago
+qwen3:4b-instruct-2507-q4_K_M    0edcdef34593    2.5 GB    5 days ago
+```
+이런 경우에 가장 위의 모델을 실행하고자 한다면 `kanana-1.5-8b-full:latest`를 입력해야 합니다.
+
+파일 실행 명령
+```python
+uv run python .\01_model_test.py
+```
+
+실행 결과 파일: `/reports/test/result_{모델명:태그}_{양자화 수준}.json`
 
 ### `02_model_test_add.py`
 
