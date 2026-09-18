@@ -7,7 +7,16 @@
 | 이정수 | https://github.com/Damsebi  |
 | 송찬영 | https://github.com/scy0416  |
 
-[[_TOC_]]
+## 목차
+- [Quick Start](#quick-start)
+- [파일 실행](#파일-실행)
+  - [`01_model_test.py`](#01_model_testpy)
+  - [`02_model_test_add.py`](#02_model_test_addpy)
+  - [`03_cloud_api_test.py`](#03_cloud_api_testpy)
+  - [`04_model_test_multiagent.py`](#04_model_test_multiagentpy)
+- [각종 문서 위치](#각종-문서-위치)
+  - [질문지 답변 자료 위치](#질문지-답변-자료-위치)
+  - [문서 자료 위치](#문서-자료-위치)
 
 ## Quick Start
 
@@ -104,6 +113,41 @@ uv run python .\02_model_test_add.py
       ```
 
 실행 결과 파일: `/reports/cloud/result_{모델명:태그}_cloud.json`
+
+### `04_model_test_multiagent.py`
+
+로컬 모델 3개를 Analyzer → Solver → Critic 순서로 연결해서 실행하는 멀티에이전트 파이프라인입니다. (Local Single Model vs Local Multi-Agent vs Cloud API 비교가 최종 목표)
+
+실행 전 유의 사항
+
+스크립트 상단의 설정 값을 직접 수정해야 합니다.
+
+ANALYZER_MODEL, SOLVER_MODEL, CRITIC_MODEL에 각각 ollama ls로 확인한 태그 포함 전체 모델명을 입력해야 합니다. (01, 02번과 동일한 방식)
+USE_10_QUESTIONS
+False → questions2.json의 cloud_test == true 문항 (5문항)
+True → questions2.json의 local_test == true 문항 (10문항)
+REPEAT_COUNT로 선택한 질문 세트를 몇 번 반복할지 정합니다.
+
+예시
+
+```commandline
+C:\Users\xxxxx\Documents\kanana\kanana-1.5-8b-base>ollama ls
+NAME                             ID              SIZE      MODIFIED
+kanana-1.5-8b-full:latest        4997c7cee514    16 GB     2 hours ago
+kanana-1.5-8b-q8:latest          0112116bbd53    8.5 GB    3 hours ago
+kanana-1.5-8b-q4:latest          ce1614ddb0be    5.0 GB    5 hours ago
+gemma3:4b                        a2af6cc3eb7f    3.3 GB    5 days ago
+qwen3:4b-instruct-2507-q4_K_M    0edcdef34593    2.5 GB    5 days ago
+```
+
+세 에이전트 역할에 각각 원하는 모델을 위 목록에서 골라 ANALYZER_MODEL, SOLVER_MODEL, CRITIC_MODEL에 입력하면 됩니다. (같은 모델을 여러 역할에 써도 무방합니다.)
+
+파일 실행 명령
+
+```python
+uv run python .\04_model_test_multiagent.py
+```
+실행 결과 파일: `/reports/multiagent/result_multiagent_{문항수}q_{타임스탬프}.json`
 
 
 ## 각종 문서 위치
